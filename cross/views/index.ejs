@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+<title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <style>
+        li{
+            list-style:none;
+            margin:10px;
+        }
+        span{
+            display:inline-block;
+            width:80px;
+        }
+      </style>
+</head>
+<body>
+<h1><%= title %></h1>
+<p>Welcome to <%= title %></p>
+
+    <form action="">
+        <li>
+            <span>用户名：</span>
+            <input type="text" id="username">
+        </li>
+        <li>
+            <span>密码：</span>
+            <input type="password" id="pwd">
+        </li>
+        <li>
+            <span>确认密码：</span>
+            <input type="password" id="pwdConfirm">
+        </li>
+        <li>
+            <button id="btn">注册</button>
+        </li>
+    </form>
+
+</body>
+  <script>
+/*      setTimeout(()=>{
+           $.ajax({
+              url:"http://www.b.com:3000/jsonp",
+              dataType:"jsonp",
+              success:function(data){
+                  console.log(data.text);
+              }
+          });
+      },1000*5);*/
+
+    var regBtn=document.getElementById("btn");
+    username.onblur=function(){
+        if(username.value==""){
+            alert("请输入用户名！");
+            return;
+        }
+    }
+    regBtn.onclick=function(e){
+        var ev=e || window.event;
+        //阻止默认提交表单
+        if(ev.preventDefault){
+            ev.preventDefault();
+        }else{
+            ev.returnValue=false;
+        }
+        if(username.value==""){
+            alert("请输入用户名！");
+            return;
+        }
+        if(pwd.value==""){
+            alert("请输入密码！");
+            return;
+        }
+        if(pwd.value!=pwdConfirm.value) {
+            alert("两次密码不一致！请重新输入！");
+            pwd.value="";
+            pwdConfirm.value="";
+            return;
+        }
+        //CORS跨域提交
+        $.ajax({
+            method:"post",
+            data:username.value,
+            url:"http://www.a.com:3000/json",
+            success:function(data){
+                if(data.errno==1){
+                    alert("注册成功！");
+                }else{
+                    alert("注册失败！",+data.errmsg);
+                }
+            }
+    });
+}
+
+  </script>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		
+		mySetInvertval(function(){
+			console.log("mySetInvertval");
+		},2000);
+		
+		function mySetInvertval(fun,millisec){
+			setTimeout(function(){
+				fun();
+				mySetInvertval(fun,millisec);
+			},millisec);
+		}
+	</script>
+</html>

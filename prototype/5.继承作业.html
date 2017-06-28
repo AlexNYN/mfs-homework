@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+	<body>
+	</body>
+	<script type="text/javascript">
+		//动物类
+		function Animal(name,age){
+			this.name=name;
+			this.age=age;
+		}
+		Animal.prototype.eat=function(){
+			console.log(this.name+"正在吃东西");
+		}
+		Animal.prototype.sleep=function(){
+			console.log(this.name+"正在睡觉");
+		}
+		
+		//狗类
+		function Dog(name,age){
+			Animal.call(this,name,age);
+		}
+		
+		Dog.prototype=Object.create(Animal.prototype);
+		//Dog.prototype=new Animal();
+		
+		
+		Dog.prototype.bark=function(){
+			console.log(this.name+"：汪汪汪");
+		}
+		
+		//Dog.prototype.__proto__=Animal.prototype;
+		
+		//objDog__proto__通过指针指向Dog.prototype
+		//Dog.prototype通过__proto__指针指向Animal.prototype
+		//Animal.prototype通过__proto__指针指向Object.prototype
+		//Object.prototype通过__proto__指针指向Null
+		//这就是原型链，也就是JS中的继承链
+		
+		var objDog=new Dog('小黑',5);
+		
+		//猫类
+		function Cat(name,age){
+			Animal.call(this,name,age);
+		}		
+		Cat.prototype=Object.create(Animal.prototype);
+		Cat.prototype.bark=function(){
+			console.log(this.name+"：喵喵喵");
+		}
+		//Cat.prototype.__proto__=Animal.prototype;
+		
+		var objCat=new Cat("喵喵",10);
+		//人类
+		function Human(name,age){
+			Animal.call(this,name,age);
+		}		
+		
+		Human.prototype=Object.create(Animal.prototype);
+		
+		Human.prototype.speak=function(){
+			console.log(this.name+"：我是一个人，我说的人话！");
+		}		
+		
+		//直接操作__proto_指向
+		//Human.prototype.__proto__=Animal.prototype;
+		
+		var objHuman=new Human('Alex',23);
+	</script>
+</html>

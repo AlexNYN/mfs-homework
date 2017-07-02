@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>省市区三级联动</title>
+		<script src="js/jquery-1.11.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="js/index.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<select class="province">
+			<option class="holder">请选择省级，自治区，直辖市</option>
+		</select>
+		<select class="city">
+			<option class="holder">请选择市</option>
+		</select>
+		<select class="district">
+			<option class="holder">请选择区，县</option>
+		</select>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			var stateArr;
+			//初始化加载所有省，自治区，直辖市
+			initProvince();
+			
+			//初始化省，自治区，直辖市
+			function initProvince(){
+				var provinceStr='';
+				for (var i = 0; i < arr.length; i++) {
+					//console.log(arr[i].region.name);
+					provinceStr+='<option>'+arr[i].region.name+'</option>';
+				}
+				$('.province').append(provinceStr);
+			}
+			
+			//select里的option被选中后触发的事件
+			$('.province').change(function(){
+				console.log($('select option'));
+				//清空所有省份		
+				$('.city').empty().append('<option class="holder">请选择市</option>');
+				$('.district').empty().append('<option class="holder">请选择区，县</option>');
+				//$('.district').empty().append('<option class="holder">请选择区，县</option>');
+				
+				//获取被选中的省份的索引
+				var proIndex=$(this).find("option:selected").index();
+				//console.log(proIndex);
+				if(proIndex==0){
+					return;
+				}		
+				proIndex-=1;
+				//初始化相对应的city
+				initCity(proIndex);
+			});
+			
+			$('.city').change(function(){
+				$('.district').empty().append('<option class="holder">请选择区，县</option>');
+				//获取被选中的省份的索引
+				var cityIndex=$(this).find("option:selected").index();
+				if(cityIndex==0){
+					return;
+				}
+				cityIndex-=1;
+				//初始化相对应的district
+				initDistrict(cityIndex);
+			});		
+			
+			//初始化城市
+			function initCity(proIndex){
+				//对应省份下面的所有城市数组stateArr
+			 	stateArr=arr[proIndex].region.state;
+				var cityStr='';
+				for (var i = 0; i < stateArr.length; i++) {
+					cityStr+='<option>'+stateArr[i].name+'</option>';
+				}
+				$('.city').append(cityStr);
+			}
+			
+			//初始化区，县
+			function initDistrict(cityIndex){
+				//对应市下面的所有区，县数组allDistrictArr
+				var districtArr=stateArr[cityIndex].city;
+				var districtStr='';
+				console.log(stateArr[cityIndex].city);
+				for (var i = 0; i < districtArr.length; i++) {
+					districtStr+='<option>'+districtArr[i].name+'</option>';
+				}
+				$('.district').append(districtStr);
+			}
+		});
+	</script>
+</html>
